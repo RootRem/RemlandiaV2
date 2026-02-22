@@ -103,7 +103,7 @@ function createNewGame() {
         applewatch: {
             enemies: [],
             lastEnemySpawn: Date.now(),
-            spawnInterval: 0.2,   // spawn every  minute
+            spawnInterval: 1,   // spawn every  minute
             maxEnemies: 8,
             enemyTypes: [
                 {
@@ -125,7 +125,8 @@ function createNewGame() {
                     defense: 1,
                     xpReward: 5,
                     goldReward: 2,
-                    loot: [{ name: "Milk", min: 1, max: 1 }],
+                    loot: [{ name: "Milk", min: 1, max: 1 },
+                          { name: "Meat", min: 1, max: 1}],
                     icon: "Images/Cow.png",
                 }
                 
@@ -142,13 +143,13 @@ function createNewGame() {
             { name: "Overlord Core", min: 1, max: 1 }
         ],
         icon: "Images/Scarecrow.png",
-        spawnInterval: 1, // in minutes
+        spawnInterval: 10, // in minutes
         lastSpawn: Date.now(),
         hasSpawned: false
     },
                         gatherNodes: [],
             lastGatherSpawn: Date.now(),
-            gatherSpawnInterval: 0.3, // every 0.3 minutes
+            gatherSpawnInterval: 1, // every minute
             maxGatherNodes: 8,
 
             gatherTypes: [
@@ -172,7 +173,7 @@ function createNewGame() {
         cave: {
             enemies: [],
             lastEnemySpawn: Date.now(),
-            spawnInterval: 0.5, // spawn every 30 seconds (0.5 minutes)
+            spawnInterval: 1, // spawn every 30 seconds (0.5 minutes)
             maxEnemies: 3,
             enemyTypes: [
                 {
@@ -856,4 +857,5 @@ function initGame() {
     startTimerLoop(); // begin automatic timer updates
     renderUI();
 }
+
 
