@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Remlandia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="menu-container">
+        <h1>Remlandia</h1>
+
+        <div class="menu-section">
+            <label for="playerName">Enter your name:</label>
+            <input type="text" id="playerName" placeholder="Adventurer..." maxlength="20">
+        </div>
+
+        <div class="menu-buttons">
+            <button id="newGameBtn">Start New Game</button>
+            <button id="continueBtn">Continue</button>
+        </div>
+
+        <p id="menuMessage" class="menu-message"></p>
+    </div>
+
+    <script>
+        const SAVE_KEY = "remlandia_save";
+        const PENDING_NAME_KEY = "remlandia_pending_name";
+
+        const nameInput = document.getElementById("playerName");
+        const newGameBtn = document.getElementById("newGameBtn");
+        const continueBtn = document.getElementById("continueBtn");
+        const message = document.getElementById("menuMessage");
+
+        function loadSavePreview() {
+            const rawSave = localStorage.getItem(SAVE_KEY);
+
+            if (!rawSave) {
+                continueBtn.disabled = true;
+                message.textContent = "No saved game found.";
+                return;
+            }
+
+            try {
+                const save = JSON.parse(rawSave);
+
+                if (!save.player || !save.player.name || !save.player.level) {
+                    throw new Error("Invalid save structure");
+                }
+
+                continueBtn.textContent =
+                    `Continue – ${save.player.name} (Level ${save.player.level})`;
+
+            } catch (err) {
+                console.error("Save corrupted:", err);
+                continueBtn.disabled = true;
+                message.textContent = "Save file corrupted.";
+            }
+        }
+
+        newGameBtn.addEventListener("click", () => {
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                message.textContent = "Please enter a name first.";
+                return;
+            }
+
+            localStorage.setItem(PENDING_NAME_KEY, name);
+            localStorage.removeItem(SAVE_KEY);
+
+            window.location.href = "game.html";
+        });
+
+        continueBtn.addEventListener("click", () => {
+            window.location.href = "game.html";
+        });
+
+        loadSavePreview();
+    </script>
+</body>
+</html>
